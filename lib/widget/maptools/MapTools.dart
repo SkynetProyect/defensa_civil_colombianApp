@@ -1,21 +1,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/widget/components/Brujula.dart';
+import 'package:flutter_application_1/widget/components/Dibujo.dart';
 import 'package:flutter_application_1/widget/components/MenuCircular.dart';
 
 class MapTools extends StatefulWidget {
   
   static List<Widget> herramientas = [
     Icon(Icons.explore_outlined),
-    Container(),
-    //Icon(Icons.draw_outlined),
+    Icon(Icons.draw_outlined),
     Container(),
     Container()
   ];
   
   static const Widget menu = Icon(Icons.auto_graph);
   Widget brujula = Brujula();
+
   MapTools({super.key});
+
+        
 
   @override
   State<StatefulWidget> createState() => _mapTools();
@@ -24,6 +27,14 @@ class MapTools extends StatefulWidget {
 
 class _mapTools extends State<MapTools>{
   bool _mostrarbrujula = false;
+  bool _permitirdibujo = false;
+  
+
+  void fnc_permitirdibujo(){
+    setState(() {
+      _permitirdibujo = !_permitirdibujo;
+    });
+  }
 
   void fnc_mostrarbrujula(){
     setState(() {
@@ -33,11 +44,16 @@ class _mapTools extends State<MapTools>{
 
   @override
   Widget build(BuildContext context) {
-    return 
-        Stack(
+    Widget dibujo = Dibujo();
+
+    return Stack(
+        alignment: Alignment.center,
         children: [
-        MenuCircular(menu: MapTools.menu, herramientas: MapTools.herramientas, fnc1: fnc_mostrarbrujula),
-        _mostrarbrujula ? widget.brujula : Container()  
+        _mostrarbrujula ? widget.brujula : Container(),
+        _permitirdibujo ? dibujo : Container(),
+        MenuCircular(menu: MapTools.menu, herramientas: MapTools.herramientas, 
+                  fnc1: fnc_mostrarbrujula, fnc2: fnc_permitirdibujo),
+
         ]);
     
   }

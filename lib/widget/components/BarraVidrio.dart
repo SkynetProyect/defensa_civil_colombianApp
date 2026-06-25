@@ -43,9 +43,9 @@ class _SelectedPosition extends State<BarraVidrio>{
   @override
   void initState() {
     super.initState();
-    _keys = List.generate(widget.opciones.length, (_) => GlobalKey()); // 👈 generate keys
+    _keys = List.generate(widget.opciones.length, (_) => GlobalKey()); 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-    _jumpToIndex(0); // 👈 jump to first item after build
+    _jumpToIndex(0); 
   });
   }
 
@@ -67,7 +67,7 @@ class _SelectedPosition extends State<BarraVidrio>{
       });
       widget.opciones[index].imagen = Icon(widget.opciones[index].imagen.icon, color: Color.fromARGB(200, 255, 255, 255));
       position = Offset(
-        relativeX + (itemWidth / 2) - (selectorWidth / 2), // 👈 centered on item
+        relativeX + (itemWidth / 2) - (selectorWidth / 2),
         position.dy,
         );
     });
@@ -108,7 +108,7 @@ class _SelectedPosition extends State<BarraVidrio>{
                 ),
                 child: 
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 👈 equal spacing
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
                   children: widget.opciones.asMap().entries.map((entry) {
                     int index = entry.key;
                     var seleccionable = entry.value;
@@ -120,7 +120,7 @@ class _SelectedPosition extends State<BarraVidrio>{
                       child: Container(
                         key: _keys[index],
                         height: 50,
-                        width: 40,                         // 👈 explicit width for the content
+                        width: 40,                        
                         margin: EdgeInsets.only(left: 20, right: 20),
                         child: Center(
                           child: Column(

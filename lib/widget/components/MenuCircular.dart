@@ -14,12 +14,14 @@ class MenuCircular extends StatefulWidget {
   final Widget menu;
   final List<Widget> herramientas;
   final VoidCallback fnc1;
+  final VoidCallback fnc2;
 
   MenuCircular({
     super.key,
     required this.menu,
     required this.herramientas,
-    required this.fnc1
+    required this.fnc1,
+    required this.fnc2
   });
   
   @override
@@ -59,7 +61,7 @@ class _Tools extends State<MenuCircular> {
           ),
           child: _expandir ? 
             _Herramientas(herramientas: widget.herramientas, menu: widget.menu, 
-                          fnc_expandir: fnc_expandir, fnc1: widget.fnc1,)
+                          fnc_expandir: fnc_expandir, fnc1: widget.fnc1, fnc2: widget.fnc2)
             : 
             GestureDetector(
               onTap: fnc_expandir,
@@ -77,12 +79,14 @@ class _Herramientas extends StatelessWidget{ // lo separe en otra clase porque e
   final Widget menu;
   final VoidCallback fnc_expandir;
   final VoidCallback fnc1;
+  final VoidCallback fnc2;
 
   const _Herramientas ({super.key, 
   required this.herramientas,
   required this.menu,
   required this.fnc_expandir,
-  required this.fnc1});
+  required this.fnc1,
+  required this.fnc2});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +109,9 @@ class _Herramientas extends StatelessWidget{ // lo separe en otra clase porque e
         left: 15,
         child: 
           GestureDetector(                            
-          onTap: () => print("presionado"),
+          onTap: (){
+                  fnc2();
+                  fnc_expandir();},
           child: 
             herramientas[1]
           )

@@ -7,7 +7,7 @@ class BarraNavegacion extends StatelessWidget{
   final ValueChanged<int> callbackfunction; //Si el callback no retorna nada.
   static final List<Icono> _destinosposibles = [
     Icono(imagen: Icon(Icons.map_outlined), titulo: 'mapa' ),
-    Icono(imagen: Icon(Icons.person), titulo: 'perfil' ),
+    Icono(imagen: Icon(Icons.radio_outlined), titulo: 'radio' ),
   ];
 
   const BarraNavegacion({

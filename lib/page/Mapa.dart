@@ -9,18 +9,18 @@ import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
 class Mapa extends StatefulWidget{
-
   Mapa({super.key});
-  
   @override
-  State<StatefulWidget> createState() => _mapaState();
-  
+  State<StatefulWidget> createState() => _mapaState();  
 }
+
+
 
 
 
 class _mapaState extends State<Mapa>{
 
+  List<Marker> _marcadores = [];
   Position? posicion;
   bool timeoutReached = false;
   late Timer _timer;
@@ -29,14 +29,15 @@ class _mapaState extends State<Mapa>{
     Position _posicion = await determinePosition();
     setState(() {
       posicion = _posicion;
-      print('-->> posicion cambiada');
     });
   }
   
+
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 15), () {
       if (mounted && posicion == null) {
         setState(() {
           timeoutReached = true;
@@ -46,11 +47,24 @@ class _mapaState extends State<Mapa>{
     _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       tomarPosicion();
     });
+     _marcadores = [Marker(
+              point: posicion != null
+                  ? LatLng(posicion!.latitude, posicion!.longitude)
+                  : LatLng(6.2442, -75.5812),
+              width: 40,
+              height: 40,
+              child: CustomPaint(size: Size(30, 30),
+                painter: Unidad(colore: 
+                  posicion != null ? const Color.fromARGB(255, 196, 3, 255) : const Color.fromARGB(0, 0, 0, 0).withValues(alpha: 0)
+                  ))
+    )];
+    
   }
 
   @override
   void dispose() {
-    _timer.cancel(); // 👈 always cancel or it leaks memory
+    _timer.cancel();
+    _marcadores = []; 
     super.dispose();
   }
   
@@ -81,20 +95,7 @@ class _mapaState extends State<Mapa>{
           userAgentPackageName: 'com.test.rescueserviceapp',          
         ),
         MarkerLayer(
-          markers: [
-            
-            Marker(
-              point: posicion != null
-                  ? LatLng(posicion!.latitude, posicion!.longitude)
-                  : LatLng(6.2442, -75.5812),
-              width: 40,
-              height: 40,
-              child: CustomPaint(size: Size(30, 30),
-                painter: Unidad(colore: 
-                  posicion != null ? const Color.fromARGB(255, 196, 3, 255) : const Color.fromARGB(0, 0, 0, 0).withValues(alpha: 0)
-                  ))
-            ),
-          ],
+          markers: _marcadores,
         ),
       ],
       ),

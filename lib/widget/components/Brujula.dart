@@ -1,13 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide Size;
 import 'dart:ui';
 import 'dart:math';
+import 'package:sound_effect/sound_effect.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 /*
 Como no habia ninguna brujula de imagen que me sirviera para lo que quiero hacer, la mejor opcion ha sido
 crear mi propio widget de brujula.
 */
 
 class Brujula extends StatefulWidget {
-  const Brujula({super.key});
+  Brujula({super.key});
 
   @override
   State<Brujula> createState() => _BrujulaState();
@@ -15,9 +19,28 @@ class Brujula extends StatefulWidget {
 
 class _BrujulaState extends State<Brujula> {
   double azimut = 0.0;
-
+  StreamSubscription<CompassEvent>? _subscription; // esto es como el springwebflux.
   // Current position
   Offset position = const Offset(100, 100);
+
+  @override
+  void initState() {
+    super.initState();
+    _subscription = FlutterCompass.events?.listen((CompassEvent data){
+      if(data.heading != null){
+      setState((){
+        azimut = data.heading!;
+        print(azimut);
+      });
+      }; 
+    });
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();  // always cancel or you'll leak memory
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +96,13 @@ class _BrujulaState extends State<Brujula> {
     );
   }
 }
+
+
+
+
+
+
+
 
 // De aqui para abajo se generan las clases con IA, esto ya son temas de dibujos y yo ahi no sirvo.
 
